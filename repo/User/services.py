@@ -28,5 +28,9 @@ class JWTService(object):
     def create_jwt_with_pk(pk: int, expired_minute: int = 60) -> str:
         return jwt.encode({
             'id': pk,
-            'exp': datetime.utcnow() + timedelta(seconds=60*expired_minute)
+            'exp': datetime.utcnow() + timedelta(minutes=expired_minute)
         }, SECRET_KEY, algorithm='HS256')
+
+    @staticmethod
+    def decode_jwt_to_pk(access_token: str) -> int:
+        return jwt.decode(access_token, SECRET_KEY, algorithms=['HS256'])['id']
