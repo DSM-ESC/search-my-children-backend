@@ -13,3 +13,7 @@ class UserService(object):
     @staticmethod
     def check_id_pw_match(user_id: str, user_pw: str) -> bool:
         return True if User.objects.get(user_id=user_id).user_pw == user_pw else False
+
+    @staticmethod
+    def get_pk_with_id(user_id: str) -> int:
+        return User.objects.get(user_id=user_id).id
