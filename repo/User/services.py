@@ -1,4 +1,8 @@
+import jwt
+from datetime import datetime, timedelta
+
 from .models import User
+from conf.settings import SECRET_KEY
 
 
 class UserService(object):
@@ -17,3 +21,12 @@ class UserService(object):
     @staticmethod
     def get_pk_with_id(user_id: str) -> int:
         return User.objects.get(user_id=user_id).id
+
+
+class JWTService(object):
+    @staticmethod
+    def create_jwt_with_pk(pk: int, expired_minute: int = 60) -> str:
+        return jwt.encode({
+            'id': pk,
+            'exp': datetime.utcnow() + timedelta(seconds=60*expired_minute)
+        }, SECRET_KEY, algorithm='HS256')
